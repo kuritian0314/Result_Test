@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.ProductDao">
+    <!--批量删除商品信息-->
+    <delete id="deleteProductByIds">
+        delete from product
+        where
+        pid in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteProductById">
+        delete
+        from product
+        where pid = #{id}
+    </delete>
+
+    <!--查询全部商品信息-->
+    <select id="findAllProduct" resultType="com.example.demo.entity.Product">
+        select *
+        from product
+    </select>
+    <!--根据id查询商品信息-->
+    <select id="findProductById" resultType="com.example.demo.entity.Product">
+        select *
+        from product
+        where pid = #{id}
+    </select>
+    <!--添加商品信息-->
+    <insert id="addProduct" parameterType="com.example.demo.entity.Product" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into product(pid, pname, pprice, ptime, pcount, pstatus)
+        VALUES (#{pid}, #{pname}, #{pprice}, #{ptime}, #{pcount}, #{pstatus})
+    </insert>
+</mapper>
